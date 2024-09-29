@@ -43,7 +43,7 @@ void loop() {
       analogWrite(PIN_LED, int((P/100) * 256));
   } else if (distance >= 100 && distance < 200){
       Q = distance - 100;
-      analogWrite(PIN_LED, int((Q/100) * 256));
+      analogWrite(PIN_LED, int(((100-Q)/100) * 256));
   }
 
   // output the distance to the serial port
