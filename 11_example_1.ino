@@ -64,18 +64,15 @@ void loop() {
 
   
   if (dist_raw > _DIST_MAX) {
-    digitalWrite(PIN_LED, 1);
     dist_raw = dist_prev;           // Cut higher than maximum
   } else if (dist_raw < _DIST_MIN) {
-    digitalWrite(PIN_LED, 1);
     dist_raw = dist_prev;// cut lower than minimumOFF
   } else {    // In desired Range
-    digitalWrite(PIN_LED, 0);
     dist_prev = dist_raw;   
   }
 
   // Apply ema filter here  
-  dist_ema = dist_raw * _EMA_ALPHA + dist_prev * (1 - _EMA_ALPHA);
+  dist_ema = dist_raw * _EMA_ALPHA + dist_ema * (1 - _EMA_ALPHA);
 
   // adjust servo position according to the USS read value
   // add your code here!
@@ -83,10 +80,13 @@ void loop() {
   
   if(dist_ema <= _TARGET_LOW){
     myservo.writeMicroseconds(_DUTY_MIN);
+    digitalWrite(PIN_LED, 1);
   } else if(dist_ema <= _TARGET_HIGH){
     myservo.writeMicroseconds((_DUTY_MAX - _DUTY_MIN) * (dist_ema - 180) / 180 + 550);
+    digitalWrite(PIN_LED, 0);
   } else {
     myservo.writeMicroseconds(_DUTY_MAX);
+    digitalWrite(PIN_LED, 1);
   }
 
 
