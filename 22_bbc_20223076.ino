@@ -11,7 +11,7 @@
 #define _INTERVAL_SERIAL  20 // serial interval (unit: ms)
 
 // EMA filter configuration for the IR distance sensor
-#define _EMA_ALPHA 0.8    // EMA weight of new sample (range: 0 to 1)
+#define _EMA_ALPHA 0.9    // EMA weight of new sample (range: 0 to 1)
                           // Setting EMA to 1 effectively disables EMA filter.
 
 // Servo adjustment - Set _DUTY_MAX, _NEU, _MIN with your own numbers
@@ -20,7 +20,7 @@
 #define _DUTY_MIN 716 // 1000
 
 #define _SERVO_ANGLE_DIFF  70  // Replace with |D - E| degree 각도값 차이
-#define _SERVO_SPEED       60  // servo speed 서보 속도가 빠르면 공 움직임 속도 조정
+#define _SERVO_SPEED       50  // servo speed 서보 속도가 빠르면 공 움직임 속도 조정
 
 #define _BANGBANG_RANGE    150  // duty up and down for bangbang control 오차 범위?
 
@@ -84,7 +84,7 @@ void loop()
     event_dist = false;
 
     // get a distance reading from the distance sensor
-    dist_filtered = volt_to_distance(ir_sensor_filtered(5, 0.5, 0));
+    dist_filtered = volt_to_distance(ir_sensor_filtered(10, 0.5, 0));
     dist_ema = _EMA_ALPHA * dist_filtered + (1.0 - _EMA_ALPHA) * dist_ema;
 
     // bang bang control
